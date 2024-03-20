@@ -8,3 +8,13 @@ with open('configs/logger.json', 'r') as f:
 
 # Utwórz loggera na podstawie konfiguracji
 logger = logging.getLogger("logger")
+
+
+def success(log_message):
+    logger.info(log_message)
+    return True
+
+
+def failure(log_message):
+    logger.error(log_message)
+    return False
