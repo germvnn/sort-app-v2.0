@@ -1,14 +1,9 @@
 import subprocess
 import os
-import logging
+from logger import *
 
-logger = logging.getLogger("logger")
-logger.setLevel(level=logging.INFO)
-handler = logging.FileHandler("logs/subprocessing.log")
-formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
-handler.setFormatter(formatter)
+logger = logging.getLogger(__name__)
 
-logger.addHandler(handler)
 
 def adb_pull_to_safe_path(destination_path):
     # Utwórz bezpieczną ścieżkę do folderu docelowego

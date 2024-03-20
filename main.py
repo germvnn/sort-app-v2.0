@@ -1,6 +1,8 @@
 import sys
-
+from logger import *
 from PyQt6.QtWidgets import QApplication, QMainWindow, QMessageBox
+
+logger = logging.getLogger(__name__)
 
 
 class WelcomeWindow(QMessageBox):
