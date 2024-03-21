@@ -4,7 +4,7 @@ import os
 import logging
 from PyQt6.QtWidgets import QMessageBox
 
-logger = logging.getLogger('root')
+logger = logging.getLogger('utilities')
 
 
 class InfoWindow(QMessageBox):
@@ -12,6 +12,7 @@ class InfoWindow(QMessageBox):
         super().__init__()
         self.setWindowTitle(title)
         self.setText(message)
+        logger.info(f"Run InfoWindow with Title: {title}, Message: {message}")
 
 
 def success(log_message):

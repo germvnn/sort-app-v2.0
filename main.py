@@ -7,6 +7,7 @@ from PyQt6 import QtCore
 from executor import PullingExecutor
 from utilities import InfoWindow
 from settings import PullingSettings
+
 logger = log.setup_logger('root')
 
 
@@ -17,9 +18,9 @@ class MainWindow(QMainWindow):
         self.setWindowTitle("Sorter")
         self.setGeometry(100, 100, 500, 500)
 
-        centralWidget = QWidget(self)
-        self.setCentralWidget(centralWidget)
-        layout = QVBoxLayout(centralWidget)
+        central_widget = QWidget(self)
+        self.setCentralWidget(central_widget)
+        layout = QVBoxLayout(central_widget)
 
         InfoWindow(message="The beginning of develop sorting app with sophisticated GUI",
                    title="Welcome").exec()
@@ -61,4 +62,5 @@ if __name__ == "__main__":
     app = QApplication(sys.argv)
     sorter = MainWindow()
     sorter.show()
+    logger.info("Run Application")
     sys.exit(app.exec())

@@ -2,12 +2,13 @@ import logging
 from PyQt6.QtWidgets import QApplication, QDialog, QVBoxLayout, QCheckBox, QPushButton
 from utilities import load_settings, save_settings, InfoWindow
 
-logger = logging.getLogger(__file__)
+logger = logging.getLogger('settings')
 
 
 class PullingSettings(QDialog):
     def __init__(self):
         super().__init__()
+        logger.info("Open Pulling Setting")
         self.setWindowTitle('ExecutorADB Settings')
         self.layout = QVBoxLayout()
         self.config_file = "adbexecutor.json"
@@ -34,6 +35,7 @@ class PullingSettings(QDialog):
         # Update settings based on checkbox states
         for key, cb in self.checkboxes.items():
             self.settings["execute"][key] = cb.isChecked()
+            logger.info(f"Set {key} to {cb.isChecked()}")
 
         # Save updated settings back to file
         message = "Success" if save_settings(settings=self.settings, filename=self.config_file) else "Fail, View logs."

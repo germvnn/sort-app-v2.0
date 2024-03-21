@@ -4,7 +4,7 @@ import subprocess
 
 from utilities import success, failure, load_settings
 
-logger = logging.getLogger('root')
+logger = logging.getLogger('executor')
 
 
 class PullingExecutor:
@@ -19,12 +19,15 @@ class PullingExecutor:
         destination_path = os.path.abspath(path)
 
         # Create directory if not exists
-        os.makedirs(destination_path) if not os.path.exists(destination_path) else None
+        if not os.path.exists(destination_path):
+            os.makedirs(destination_path)
+            logger.info(f"Create directory: {destination_path}")
 
         results = []
         for media, source in self.medias.items():
             if self.execute[media]:
                 command = f"adb pull {source} {destination_path}"
+                logger.info(f"Send command: {command}")
                 result = subprocess.run(command,
                                         shell=True,
                                         stdout=subprocess.PIPE,
