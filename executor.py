@@ -1,14 +1,15 @@
-import subprocess
+import logging
 import os
-from logger import *
+import subprocess
 
-logger = logging.getLogger(__name__)
+from utilities import success, failure, load_settings
+
+logger = logging.getLogger('root')
 
 
-class ExecutorADB:
+class PullingExecutor:
     def __init__(self):
-        with open('configs/adbexecutor.json', 'r') as file:
-            config = json.load(file)
+        config = load_settings("adbexecutor.json")
         self.medias = config['medias']
         self.execute = config['execute']
 
@@ -45,5 +46,5 @@ class ExecutorADB:
 
 
 if __name__ == "__main__":
-    adb = ExecutorADB()
+    adb = PullingExecutor()
     adb.pull("C:/Users/Daniel/Desktop/test")

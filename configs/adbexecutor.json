@@ -10,9 +10,9 @@
     },
     "execute": {
         "Messenger": false,
-        "Snapchat": true,
+        "Snapchat": false,
         "Camera": false,
-        "Screenshots": false,
+        "Screenshots": true,
         "Facebook": false,
         "Downloads": false,
         "Instagram": false
