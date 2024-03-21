@@ -1,0 +1,20 @@
+{
+    "medias": {
+        "Messenger": "/sdcard/Pictures/Messenger",
+        "Snapchat": "/sdcard/DCIM/Snapchat",
+        "Camera": "/sdcard/DCIM/Camera",
+        "Screenshots": "/sdcard/DCIM/Screenshots",
+        "Facebook": "/sdcard/DCIM/Facebook",
+        "Downloads": "/sdcard/Downloads",
+        "Instagram": "/sdcard/DCIM/Instagram"
+    },
+    "execute": {
+        "Messenger": false,
+        "Snapchat": true,
+        "Camera": false,
+        "Screenshots": false,
+        "Facebook": false,
+        "Downloads": false,
+        "Instagram": false
+    }
+}
