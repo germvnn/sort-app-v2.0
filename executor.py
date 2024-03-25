@@ -39,14 +39,14 @@ class PullingExecutor:
 
                 if result.returncode == 0:
                     results.append(success(f"Pulling from {media}: " + result.stdout))
-                    self._extract_images(path) if self.runner['extract'] else logger.info("Extract non_image: false")
+                    self.extract_images(path) if self.runner['extract'] else logger.info("Extract non_image: false")
                     self._delete(source, result.stdout) if self.runner['delete'] else logger.info("Delete set: false")
                 else:
                     results.append(failure(f"Error occur while pulling {media}: {result.stdout}"))
         return success("Pulling OK") if all(results) else failure("Pulling NOK")
 
     @staticmethod
-    def _extract_images(path):
+    def extract_images(path):
         logger.debug("Run extraction process")
         non_image = 'non_image'
         non_image_dir = os.path.join(path, non_image)

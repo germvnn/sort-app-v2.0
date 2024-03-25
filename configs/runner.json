@@ -2,5 +2,6 @@
     "pulling_executor": {
         "extract": true,
         "delete": false
-    }
+    },
+    "path": "C:/Users/Daniel/Desktop/test"
 }

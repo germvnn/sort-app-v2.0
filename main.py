@@ -1,11 +1,12 @@
 import sys
 import log
 from PyQt6.QtGui import QAction, QDesktopServices
-from PyQt6.QtWidgets import QApplication, QMainWindow, QPushButton, QWidget, QVBoxLayout
+from PyQt6.QtWidgets import (QApplication, QMainWindow, QPushButton, QFileDialog,
+                             QWidget, QVBoxLayout, QLabel, QSpacerItem, QSizePolicy)
 from PyQt6 import QtCore
 
 from executor import PullingExecutor
-from utilities import InfoWindow
+from utilities import InfoWindow, load_settings, save_settings
 from settings import PullingSettings, RunnerSettings
 
 logger = log.setup_logger('root')
@@ -28,6 +29,7 @@ class MainWindow(QMainWindow):
         # Menu Bar -> {item}
         help_menu_item = self.menuBar().addMenu("&Help")
         sets_menu_item = self.menuBar().addMenu("&Settings")
+        test_menu_item = self.menuBar().addMenu("&Test")
 
         # Menu Bar -> Settings -> Pulling
         pulling_settings = QAction("Pulling", self)
@@ -41,13 +43,52 @@ class MainWindow(QMainWindow):
 
         # Menu Bar -> Help -> GitHub
         github_action = QAction("GitHub", self)
-        help_menu_item.addAction(github_action)
         github_action.triggered.connect(self._help)
+        help_menu_item.addAction(github_action)
+
+        # Menu Bar -> Test -> Extract
+        extract_action = QAction("Extract", self)
+        extract_action.triggered.connect(self._test_extract)
+        test_menu_item.addAction(extract_action)
+
+        # Spacer
+        spacer = QSpacerItem(20, 40, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
+        layout.addItem(spacer)
+
+        # Current path: {path}
+        self.path_config = load_settings("runner.json")
+        self.path = self.path_config['path']
+        self.pathLabel = QLabel(f"Current path: {self.path}", self)
+        layout.addWidget(self.pathLabel, alignment=QtCore.Qt.AlignmentFlag.AlignBottom)
+
+        # MainWindow (bottom) -> Choose Path
+        self.choosePathButton = QPushButton("Choose Path", self)
+        self.choosePathButton.clicked.connect(self._choose_path)
+        layout.addWidget(self.choosePathButton, alignment=QtCore.Qt.AlignmentFlag.AlignBottom)
 
         # MainWindow (bottom) -> Run
         self.runButton = QPushButton("Run", self)
         self.runButton.clicked.connect(self._runner_instructions)
         layout.addWidget(self.runButton, alignment=QtCore.Qt.AlignmentFlag.AlignBottom)
+
+    def _choose_path(self):
+        path = QFileDialog.getExistingDirectory(self, "Select Folder")
+        if path:
+            self.pathLabel.setText(f"Current path: {path}")
+            self.path_config['path'] = path
+            save_settings(settings=self.path_config, filename="runner.json")
+        else:
+            self.pathLabel.setText("No path selected")
+
+    def _test_extract(self):
+        PullingExecutor.extract_images(self.path)
+        InfoWindow(message="Done", title="Extraction").exec()
+
+    def _runner_instructions(self):
+        executor = PullingExecutor()
+        result = executor.pull(self.path)
+        message = "Success!" if result else "Failure, view logs."
+        InfoWindow(message=message, title="Runner").exec()
 
     @staticmethod
     def _pull_settings():
@@ -63,13 +104,6 @@ class MainWindow(QMainWindow):
     def _help():
         url = QtCore.QUrl("https://github.com/germvnn/sort-app-v2.0")
         QDesktopServices.openUrl(url)
-
-    @staticmethod
-    def _runner_instructions():
-        executor = PullingExecutor()
-        result = executor.pull("C:/Users/Daniel/Desktop/test")
-        message = "Success!" if result else "Failure, view logs."
-        InfoWindow(message=message, title="Runner").exec()
 
 
 if __name__ == "__main__":
