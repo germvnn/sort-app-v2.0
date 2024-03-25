@@ -6,7 +6,7 @@ from PyQt6 import QtCore
 
 from executor import PullingExecutor
 from utilities import InfoWindow
-from settings import PullingSettings
+from settings import PullingSettings, RunnerSettings
 
 logger = log.setup_logger('root')
 
@@ -34,6 +34,11 @@ class MainWindow(QMainWindow):
         pulling_settings.triggered.connect(self._pull_settings)
         sets_menu_item.addAction(pulling_settings)
 
+        # Menu Bar -> Settings -> Runner
+        runner_settings = QAction("Runner", self)
+        runner_settings.triggered.connect(self._runner_settings)
+        sets_menu_item.addAction(runner_settings)
+
         # Menu Bar -> Help -> GitHub
         github_action = QAction("GitHub", self)
         help_menu_item.addAction(github_action)
@@ -41,7 +46,7 @@ class MainWindow(QMainWindow):
 
         # MainWindow (bottom) -> Run
         self.runButton = QPushButton("Run", self)
-        self.runButton.clicked.connect(self._run_instructions)
+        self.runButton.clicked.connect(self._runner_instructions)
         layout.addWidget(self.runButton, alignment=QtCore.Qt.AlignmentFlag.AlignBottom)
 
     @staticmethod
@@ -50,15 +55,20 @@ class MainWindow(QMainWindow):
         pull_settings_dialog.exec()
 
     @staticmethod
+    def _runner_settings():
+        runner_settings_dialog = RunnerSettings()
+        runner_settings_dialog.exec()
+
+    @staticmethod
     def _help():
         url = QtCore.QUrl("https://github.com/germvnn/sort-app-v2.0")
         QDesktopServices.openUrl(url)
 
     @staticmethod
-    def _run_instructions():
+    def _runner_instructions():
         executor = PullingExecutor()
         result = executor.pull("C:/Users/Daniel/Desktop/test")
-        message = "Success" if result else "Failure"
+        message = "Success!" if result else "Failure, view logs."
         InfoWindow(message=message, title="Runner").exec()
 
 

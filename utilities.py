@@ -47,3 +47,9 @@ def save_settings(settings, filename):
             return success(f"Configs successfully saved to {filename}")
     except Exception as e:
         return failure(f"Saving configs failure due to {e}.")
+
+
+def create_directory(path):
+    if not os.path.exists(path):
+        os.makedirs(path)
+        logger.info(f"Create directory: {path}")
