@@ -10,11 +10,12 @@
     },
     "execute": {
         "Messenger": false,
-        "Snapchat": true,
-        "Camera": false,
-        "Screenshots": false,
+        "Snapchat": false,
+        "Camera": true,
+        "Screenshots": true,
         "Facebook": false,
-        "Downloads": false,
+        "Downloads": true,
         "Instagram": false
     }
 }
+
