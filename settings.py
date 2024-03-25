@@ -5,20 +5,22 @@ from utilities import load_settings, save_settings, InfoWindow
 logger = logging.getLogger('settings')
 
 
-class PullingSettings(QDialog):
-    def __init__(self):
+class CheckBoxSettings(QDialog):
+    def __init__(self, config_file, settings_key, title):
         super().__init__()
-        logger.info("Open Pulling Setting")
-        self.setWindowTitle('ExecutorADB Settings')
+        logger.info(f"Open {title}")
+        self.setWindowTitle(title)
         self.layout = QVBoxLayout()
-        self.config_file = "adbexecutor.json"
+        self.config_file = config_file
+        self.settings_key = settings_key
         # Load settings from file
         self.settings = load_settings(self.config_file)
+        self.settings_content = self.settings[self.settings_key].items()
         self.checkboxes = {}
         self.setFixedWidth(200)
 
-        # Create checkboxes for each setting in "execute"
-        for key, value in self.settings["execute"].items():
+        # Create checkboxes for each setting
+        for key, value in self.settings_content:
             cb = QCheckBox(key)
             cb.setChecked(value)
             self.checkboxes[key] = cb
@@ -38,7 +40,7 @@ class PullingSettings(QDialog):
     def apply_changes(self):
         # Update settings based on checkbox states
         for key, cb in self.checkboxes.items():
-            self.settings["execute"][key] = cb.isChecked()
+            self.settings[self.settings_key][key] = cb.isChecked()
             logger.info(f"Set {key} to {cb.isChecked()}")
 
         # Save updated settings back to file
@@ -48,6 +50,16 @@ class PullingSettings(QDialog):
         else:
             self.status_label.setText("Fail: View logs.")
             self.status_label.setStyleSheet("color: red;")
+
+
+class PullingSettings(CheckBoxSettings):
+    def __init__(self):
+        super().__init__("adbexecutor.json", "execute", "Pulling Settings")
+
+
+class RunnerSettings(CheckBoxSettings):
+    def __init__(self):
+        super().__init__("runner.json", "pulling_executor", "Runner Settings")
 
 
 if __name__ == "__main__":

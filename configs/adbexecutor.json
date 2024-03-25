@@ -9,9 +9,9 @@
         "Instagram": "/sdcard/DCIM/Instagram"
     },
     "execute": {
-        "Messenger": true,
+        "Messenger": false,
         "Snapchat": false,
-        "Camera": false,
+        "Camera": true,
         "Screenshots": false,
         "Facebook": false,
         "Download": false,

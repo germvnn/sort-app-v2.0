@@ -6,7 +6,7 @@ from PyQt6 import QtCore
 
 from executor import PullingExecutor
 from utilities import InfoWindow
-from settings import PullingSettings
+from settings import PullingSettings, RunnerSettings
 
 logger = log.setup_logger('root')
 
@@ -56,7 +56,7 @@ class MainWindow(QMainWindow):
 
     @staticmethod
     def _runner_settings():
-        runner_settings_dialog = InfoWindow("Runner Settings")
+        runner_settings_dialog = RunnerSettings()
         runner_settings_dialog.exec()
 
     @staticmethod

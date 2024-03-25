@@ -1,5 +1,5 @@
 {
-  "pulling_executor": {
+    "pulling_executor": {
         "extract": true,
         "delete": false
     }
