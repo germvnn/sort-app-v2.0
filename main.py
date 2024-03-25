@@ -58,7 +58,7 @@ class MainWindow(QMainWindow):
     def _run_instructions():
         executor = PullingExecutor()
         result = executor.pull("C:/Users/Daniel/Desktop/test")
-        message = "Success" if result else "Failure"
+        message = "Success!" if result else "Failure, view logs."
         InfoWindow(message=message, title="Runner").exec()
 
 

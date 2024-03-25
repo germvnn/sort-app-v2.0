@@ -5,17 +5,20 @@
         "Camera": "/sdcard/DCIM/Camera",
         "Screenshots": "/sdcard/DCIM/Screenshots",
         "Facebook": "/sdcard/DCIM/Facebook",
-        "Downloads": "/sdcard/Downloads",
+        "Download": "/sdcard/Download",
         "Instagram": "/sdcard/DCIM/Instagram"
     },
     "execute": {
         "Messenger": false,
         "Snapchat": false,
-        "Camera": true,
+        "Camera": false,
         "Screenshots": true,
         "Facebook": false,
-        "Downloads": true,
+        "Download": false,
         "Instagram": false
+    },
+    "executor": {
+        "extract": true,
+        "delete": false
     }
 }
-
