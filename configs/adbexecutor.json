@@ -11,10 +11,10 @@
     "execute": {
         "Messenger": false,
         "Snapchat": false,
-        "Camera": false,
+        "Camera": true,
         "Screenshots": true,
         "Facebook": false,
-        "Downloads": false,
+        "Downloads": true,
         "Instagram": false
     }
 }
