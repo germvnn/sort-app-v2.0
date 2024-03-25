@@ -1,5 +1,5 @@
 import logging
-from PyQt6.QtWidgets import QApplication, QDialog, QVBoxLayout, QCheckBox, QPushButton
+from PyQt6.QtWidgets import QApplication, QDialog, QVBoxLayout, QCheckBox, QPushButton, QLabel
 from utilities import load_settings, save_settings, InfoWindow
 
 logger = logging.getLogger('settings')
@@ -24,6 +24,10 @@ class PullingSettings(QDialog):
             self.checkboxes[key] = cb
             self.layout.addWidget(cb)
 
+        # Status label
+        self.status_label = QLabel()
+        self.layout.addWidget(self.status_label)
+
         # Apply button
         self.apply_btn = QPushButton('Set')
         self.apply_btn.clicked.connect(self.apply_changes)
@@ -38,8 +42,12 @@ class PullingSettings(QDialog):
             logger.info(f"Set {key} to {cb.isChecked()}")
 
         # Save updated settings back to file
-        message = "Success" if save_settings(settings=self.settings, filename=self.config_file) else "Fail, View logs."
-        InfoWindow(message=message).exec()
+        if save_settings(settings=self.settings, filename=self.config_file):
+            self.status_label.setText("Success: Settings saved")
+            self.status_label.setStyleSheet("color: green;")
+        else:
+            self.status_label.setText("Fail: View logs.")
+            self.status_label.setStyleSheet("color: red;")
 
 
 if __name__ == "__main__":
