@@ -11,10 +11,12 @@ logger = logging.getLogger('executor')
 
 class PullingExecutor:
     def __init__(self):
-        config = load_settings("adbexecutor.json")
-        self.medias = config['medias']
-        self.execute = config['execute']
-        self.executor = config['executor']
+        media_config = load_settings("adbexecutor.json")
+        self.medias = media_config['medias']
+        self.execute = media_config['execute']
+
+        runner_config = load_settings("runner.json")
+        self.runner = runner_config['pulling_executor']
 
     def pull(self, path):
         # TODO: Pulling by loop using json configure
@@ -37,8 +39,8 @@ class PullingExecutor:
 
                 if result.returncode == 0:
                     results.append(success(f"Pulling from {media}: " + result.stdout))
-                    self._extract_images(path) if self.executor['extract'] else logger.info("Extract non_image: false")
-                    self._delete(source, result.stdout) if self.executor['delete'] else logger.info("Delete set: false")
+                    self._extract_images(path) if self.runner['extract'] else logger.info("Extract non_image: false")
+                    self._delete(source, result.stdout) if self.runner['delete'] else logger.info("Delete set: false")
                 else:
                     results.append(failure(f"Error occur while pulling {media}: {result.stdout}"))
         return success("Pulling OK") if all(results) else failure("Pulling NOK")

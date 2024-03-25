@@ -1,0 +1,6 @@
+{
+  "pulling_executor": {
+        "extract": true,
+        "delete": false
+    }
+}
