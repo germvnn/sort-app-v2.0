@@ -6,15 +6,17 @@
         "Screenshots": "/sdcard/DCIM/Screenshots",
         "Facebook": "/sdcard/DCIM/Facebook",
         "Download": "/sdcard/Download",
-        "Instagram": "/sdcard/DCIM/Instagram"
+        "Instagram": "/sdcard/DCIM/Instagram",
+        "Movies": "/sdcard/Movies"
     },
     "execute": {
         "Messenger": false,
         "Snapchat": false,
-        "Camera": true,
+        "Camera": false,
         "Screenshots": false,
         "Facebook": false,
         "Download": false,
-        "Instagram": false
+        "Instagram": false,
+        "Movies": true
     }
 }

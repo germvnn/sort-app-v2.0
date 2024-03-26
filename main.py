@@ -77,6 +77,7 @@ class MainWindow(QMainWindow):
         if path:
             self.pathLabel.setText(f"Current path: {path}")
             self.path_config['path'] = path
+            logger.info(f"Set path: {path} in {RUNNER_CONFIG_FILE}")
             save_settings(settings=self.path_config, filename=RUNNER_CONFIG_FILE)
         else:
             self.pathLabel.setText("No path selected")
