@@ -1,6 +1,9 @@
 import logging
+
 from PyQt6.QtWidgets import QApplication, QDialog, QVBoxLayout, QCheckBox, QPushButton, QLabel
-from utilities import load_settings, save_settings, InfoWindow
+
+from utilities import load_settings, save_settings
+from variables import *
 
 logger = logging.getLogger('settings')
 
@@ -37,7 +40,7 @@ class CheckBoxSettings(QDialog):
 
         self.setLayout(self.layout)
 
-    def apply_changes(self):
+    def apply_changes(self) -> None:
         # Update settings based on checkbox states
         for key, cb in self.checkboxes.items():
             self.settings[self.settings_key][key] = cb.isChecked()
@@ -45,21 +48,21 @@ class CheckBoxSettings(QDialog):
 
         # Save updated settings back to file
         if save_settings(settings=self.settings, filename=self.config_file):
-            self.status_label.setText("Success: Settings saved")
+            self.status_label.setText(f"{SUCCESS} Settings saved")
             self.status_label.setStyleSheet("color: green;")
         else:
-            self.status_label.setText("Fail: View logs.")
+            self.status_label.setText(FAILURE)
             self.status_label.setStyleSheet("color: red;")
 
 
 class PullingSettings(CheckBoxSettings):
     def __init__(self):
-        super().__init__("adbexecutor.json", "execute", "Pulling Settings")
+        super().__init__(config_file=PULLING_CONFIG_FILE, settings_key="execute", title="Pulling Settings")
 
 
 class RunnerSettings(CheckBoxSettings):
     def __init__(self):
-        super().__init__("runner.json", "pulling_executor", "Runner Settings")
+        super().__init__(config_file=RUNNER_CONFIG_FILE, settings_key="pulling_executor", title="Runner Settings")
 
 
 if __name__ == "__main__":

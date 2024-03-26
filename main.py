@@ -8,6 +8,7 @@ from PyQt6 import QtCore
 from executor import PullingExecutor
 from utilities import InfoWindow, load_settings, save_settings
 from settings import PullingSettings, RunnerSettings
+from variables import *
 
 logger = log.setup_logger('root')
 
@@ -55,8 +56,8 @@ class MainWindow(QMainWindow):
         spacer = QSpacerItem(20, 40, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
         layout.addItem(spacer)
 
-        # Current path: {path}
-        self.path_config = load_settings("runner.json")
+        # MainWindow (bottom) -> Current path: {path}
+        self.path_config = load_settings(RUNNER_CONFIG_FILE)
         self.path = self.path_config['path']
         self.pathLabel = QLabel(f"Current path: {self.path}", self)
         layout.addWidget(self.pathLabel, alignment=QtCore.Qt.AlignmentFlag.AlignBottom)
@@ -76,18 +77,18 @@ class MainWindow(QMainWindow):
         if path:
             self.pathLabel.setText(f"Current path: {path}")
             self.path_config['path'] = path
-            save_settings(settings=self.path_config, filename="runner.json")
+            save_settings(settings=self.path_config, filename=RUNNER_CONFIG_FILE)
         else:
             self.pathLabel.setText("No path selected")
 
     def _test_extract(self):
         PullingExecutor.extract_images(self.path)
-        InfoWindow(message="Done", title="Extraction").exec()
+        InfoWindow(message=SUCCESS, title="Extraction").exec()
 
     def _runner_instructions(self):
         executor = PullingExecutor()
         result = executor.pull(self.path)
-        message = "Success!" if result else "Failure, view logs."
+        message = SUCCESS if result else FAILURE
         InfoWindow(message=message, title="Runner").exec()
 
     @staticmethod
@@ -102,8 +103,7 @@ class MainWindow(QMainWindow):
 
     @staticmethod
     def _help():
-        url = QtCore.QUrl("https://github.com/germvnn/sort-app-v2.0")
-        QDesktopServices.openUrl(url)
+        QDesktopServices.openUrl(REPOSITORY_URL)
 
 
 if __name__ == "__main__":

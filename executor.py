@@ -5,20 +5,21 @@ import subprocess
 import re
 
 from utilities import success, failure, load_settings, create_directory
+from variables import PULLING_CONFIG_FILE, RUNNER_CONFIG_FILE
 
 logger = logging.getLogger('executor')
 
 
 class PullingExecutor:
     def __init__(self):
-        media_config = load_settings("adbexecutor.json")
+        media_config = load_settings(PULLING_CONFIG_FILE)
         self.medias = media_config['medias']
         self.execute = media_config['execute']
 
-        runner_config = load_settings("runner.json")
+        runner_config = load_settings(RUNNER_CONFIG_FILE)
         self.runner = runner_config['pulling_executor']
 
-    def pull(self, path):
+    def pull(self, path) -> bool:
         # TODO: Pulling by loop using json configure
         # Make path as absolute
         destination_path = os.path.abspath(path)
@@ -46,7 +47,7 @@ class PullingExecutor:
         return success("Pulling OK") if all(results) else failure("Pulling NOK")
 
     @staticmethod
-    def extract_images(path):
+    def extract_images(path) -> None:
         logger.debug("Run extraction process")
         non_image = 'non_image'
         non_image_dir = os.path.join(path, non_image)
@@ -66,7 +67,7 @@ class PullingExecutor:
                 logger.info(f"Moved {source_path} to {target_dir}")
 
     @staticmethod
-    def _delete(source, pull_output):
+    def _delete(source, pull_output) -> None:
         matches = re.search(r'(\d+) skipped', pull_output)
         skipped = int(matches.group(1))
         if skipped == 0:

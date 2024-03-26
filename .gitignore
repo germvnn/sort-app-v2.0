@@ -161,4 +161,4 @@ cython_debug/
 logs/
 
 # configs
-configs/adbexecutor.json
+configs/
